@@ -60,6 +60,19 @@ class AirCargoProblem(Problem):
             :return: list of Action objects
             """
             loads = []
+            for airport in self.airports:
+                for plane in self.plane:
+                    for cargo in self.cargos:
+                        precond_pos = [expr("At({}, {})".format(plane, airport)),
+                                       expr("At({}, {})".format(cargo, airport))]
+                        precond_neg = [expr("In({}, {})".format(cargo, plane))]
+                        effect_add = [expr("In({}, {})".format(cargo, plane))]
+                        effect_rem = []
+                        load = Action(expr("Load({}, {}, {})".format(cargo, plane, airport)),
+                                     [precond_pos, precond_neg],
+                                     [effect_add, effect_rem])
+                        loads.append(load)
+
             # TODO create all load ground actions from the domain Load action
             return loads
 
@@ -69,7 +82,18 @@ class AirCargoProblem(Problem):
             :return: list of Action objects
             """
             unloads = []
-            # TODO create all Unload ground actions from the domain Unload action
+            for airport in self.airports:
+                for plane in self.plane:
+                    for cargo in self.cargos:
+                        precond_pos = [expr("At({}, {})".format(plane, airport)),
+                                       expr("In({}, {})".format(cargo, plane))]
+                        precond_neg = []
+                        effect_add = [expr("At({}, {})".format(cargo, airport))]
+                        effect_rem = [expr("In({}, {})".format(cargo, plane))]
+                        unload = Action(expr("Unload({}, {}, {})".format(cargo, plane, airport)),
+                                     [precond_pos, precond_neg],
+                                     [effect_add, effect_rem])
+                        unloads.append(unload)
             return unloads
 
         def fly_actions():

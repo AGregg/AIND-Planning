@@ -125,7 +125,6 @@ class AirCargoProblem(Problem):
             e.g. 'FTTTFF'
         :return: list of Action objects
         """
-        # TODO implement
         possible_actions = []
         kb = PropKB()
         kb.tell(decode_state(state, self.state_map).pos_sentence())
@@ -150,7 +149,6 @@ class AirCargoProblem(Problem):
         :param action: Action applied
         :return: resulting state after action
         """
-        # TODO implement
         new_state = FluentState([], [])
         old_state = decode_state(state, self.state_map)
         for fluent in old_state.pos:

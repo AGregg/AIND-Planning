@@ -407,9 +407,13 @@ class PlanningGraph():
         :return: bool
         """
         # TODO test for Inconsistent Effects between nodes
-        for effect1 in node_a1.effnodes:
-            for effect2 in node_a2.effnodes:
-                if effect1.symbol == effect2.symbol and effect1.is_pos != effect2.is_pos:
+        for pos in node_a1.action.precond_pos:
+            for neg in node_a2.action.precond_neg:
+                if neg == pos:
+                    return True
+        for pos in node_a2.action.precond_pos:
+            for neg in node_a1.action.precond_neg:
+                if neg == pos:
                     return True
         return False
 

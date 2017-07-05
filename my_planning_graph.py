@@ -342,10 +342,10 @@ class PlanningGraph():
         self.s_levels.append(set())
         a_nodes = self.a_levels[level - 1]
         for a_node in a_nodes:
-            self.s_levels[level].update(a_node.effect_s_nodes())
+            self.s_levels[level].update(a_node.effnodes)
         for a_node in a_nodes:
             for s_node in self.s_levels[level]:
-                effect_s_nodes = a_node.effect_s_nodes()
+                effect_s_nodes = a_node.effnodes
                 if s_node in effect_s_nodes:
                     s_node.parents.add(a_node)
                     a_node.children.add(s_node)
@@ -407,6 +407,10 @@ class PlanningGraph():
         :return: bool
         """
         # TODO test for Inconsistent Effects between nodes
+        for effect1 in node_a1.effnodes:
+            for effect2 in node_a2.effnodes:
+                if effect1.symbol == effect2.symbol and effect1.is_pos != effect2.is_pos:
+                    return True
         return False
 
     def interference_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:

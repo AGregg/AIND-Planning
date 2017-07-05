@@ -307,9 +307,20 @@ class PlanningGraph():
         # 1. determine what actions to add and create those PgNode_a objects
         # 2. connect the nodes to the previous S literal level
         # for example, the A0 level will iterate through all possible actions for the problem and add a PgNode_a to a_levels[0]
-        #   set iff all prerequisite literals for the action hold in S0.  This can be accomplished by testing
+        #   set if all prerequisite literals for the action hold in S0.  This can be accomplished by testing
         #   to see if a proposed PgNode_a has prenodes that are a subset of the previous S level.  Once an
         #   action node is added, it MUST be connected to the S node instances in the appropriate s_level set.
+        self.a_levels.append(set())
+        s_nodes = self.s_levels[level]
+        for action in self.all_actions:
+            a_node = PgNode_a(action)
+            precond_s_nodes = a_node.precond_s_nodes()
+            if s_nodes.issuperset(precond_s_nodes):
+                for s_node in s_nodes:
+                    if s_node in precond_s_nodes:
+                        a_node.parents.add(s_node)
+                        s_node.children.add(a_node)
+                self.a_levels[level].add(a_node)
 
     def add_literal_level(self, level):
         """ add an S (literal) level to the Planning Graph
@@ -328,6 +339,16 @@ class PlanningGraph():
         #   may be "added" to the set without fear of duplication.  However, it is important to then correctly create and connect
         #   all of the new S nodes as children of all the A nodes that could produce them, and likewise add the A nodes to the
         #   parent sets of the S nodes
+        self.s_levels.append(set())
+        a_nodes = self.a_levels[level - 1]
+        for a_node in a_nodes:
+            self.s_levels[level].update(a_node.effect_s_nodes())
+        for a_node in a_nodes:
+            for s_node in self.s_levels[level]:
+                effect_s_nodes = a_node.effect_s_nodes()
+                if s_node in effect_s_nodes:
+                    s_node.parents.add(a_node)
+                    a_node.children.add(s_node)
 
     def update_a_mutex(self, nodeset):
         """ Determine and update sibling mutual exclusion for A-level nodes

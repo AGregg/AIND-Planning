@@ -462,6 +462,14 @@ class PlanningGraph():
         """
 
         # TODO test for Competing Needs between nodes
+        for pos in node_a1.action.precond_pos:
+            for neg in node_a2.action.precond_neg:
+                if neg == pos:
+                    return True
+        for pos in node_a2.action.precond_pos:
+            for neg in node_a1.action.precond_neg:
+                if neg == pos:
+                    return True
         return False
 
     def update_s_mutex(self, nodeset: set):

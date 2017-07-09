@@ -461,8 +461,8 @@ class PlanningGraph():
         :return: bool
         """
         # TODO test for Competing Needs between nodes
-        for prenode_1 in node_a1.prenodes:
-            for prenode_2 in node_a2.prenodes:
+        for prenode_1 in node_a1.parents:
+            for prenode_2 in node_a2.parents:
                 if prenode_1.is_mutex(prenode_2):
                     return True
         return False

@@ -521,8 +521,6 @@ class PlanningGraph():
         :return: bool
         """
         # TODO test for Inconsistent Support between nodes
-        # if node_s1.is_mutex(node_s2):
-        #     return True
         for a1 in node_s1.parents:
             for a2 in node_s2.parents:
                 if not a1.is_mutex(a2):
@@ -534,7 +532,12 @@ class PlanningGraph():
 
         :return: int
         """
-        level_sum = 0
         # TODO implement
         # for each goal in the problem, determine the level cost, then add them together
+        level_sum = 0
+        for goal in self.problem.goal:
+            for level in range(0, len(self.s_levels)):
+                if goal in (node.symbol for node in self.s_levels[level] if node.is_pos):
+                    level_sum = level_sum + level
+                    break
         return level_sum

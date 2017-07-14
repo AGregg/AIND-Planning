@@ -220,7 +220,7 @@ def air_cargo_p1() -> AirCargoProblem:
            expr('At(C2, JFK)'),
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
-           ]
+          ]
     neg = [expr('At(C2, SFO)'),
            expr('In(C2, P1)'),
            expr('In(C2, P2)'),
@@ -229,11 +229,11 @@ def air_cargo_p1() -> AirCargoProblem:
            expr('In(C1, P2)'),
            expr('At(P1, JFK)'),
            expr('At(P2, SFO)'),
-           ]
+          ]
     init = FluentState(pos, neg)
     goal = [expr('At(C1, JFK)'),
             expr('At(C2, SFO)'),
-            ]
+           ]
     return AirCargoProblem(cargos, planes, airports, init, goal)
 
 
@@ -254,7 +254,7 @@ def air_cargo_p2() -> AirCargoProblem:
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)'),
            expr('At(P3, ATL)')
-        ]
+          ]
     neg = [expr('At(P1, JFK)'),
            expr('At(P1, ATL)'),
            expr('At(P2, SFO)'),
@@ -276,12 +276,12 @@ def air_cargo_p2() -> AirCargoProblem:
            expr('In(C3, P1)'),
            expr('In(C3, P2)'),
            expr('In(C3, P3)'),
-        ]
+          ]
     init = FluentState(pos, neg)
     goal = [expr('At(C1, JFK)'),
             expr('At(C2, SFO)'),
             expr('At(C3, SFO)')
-            ]
+           ]
 
     return AirCargoProblem(cargos, planes, airports, init, goal)
 
@@ -302,7 +302,7 @@ def air_cargo_p3() -> AirCargoProblem:
            expr('At(C4, ORD)'),
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)')
-        ]
+          ]
 
     # would be nice to eventually make the negative expression programatic
     # if an object can't be in 2 places at once,
@@ -335,12 +335,12 @@ def air_cargo_p3() -> AirCargoProblem:
            expr('In(C3, P2)'),
            expr('In(C4, P1)'),
            expr('In(C4, P2)'),
-    ]
+          ]
     init = FluentState(pos, neg)
     goal = [expr('At(C1, JFK)'),
             expr('At(C2, SFO)'),
             expr('At(C3, JFK)'),
             expr('at(C4, SFO)')
-            ]
+           ]
 
     return AirCargoProblem(cargos, planes, airports, init, goal)

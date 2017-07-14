@@ -303,12 +303,6 @@ def air_cargo_p3() -> AirCargoProblem:
            expr('At(P1, SFO)'),
            expr('At(P2, JFK)')
           ]
-
-    # would be nice to eventually make the negative expression programatic
-    # if an object can't be in 2 places at once,
-    # it being somewhere means it's not elsewhere
-    # e.g.
-    # neg.extend(expr('At(C1, '+x+')') for x in airports if x is not 'SFO'])
     neg = [expr('At(C1, JFK)'),
            expr('At(C1, ATL)'),
            expr('At(C1, ORD)'),
@@ -334,7 +328,7 @@ def air_cargo_p3() -> AirCargoProblem:
            expr('In(C3, P1)'),
            expr('In(C3, P2)'),
            expr('In(C4, P1)'),
-           expr('In(C4, P2)'),
+           expr('In(C4, P2)')
           ]
     init = FluentState(pos, neg)
     goal = [expr('At(C1, JFK)'),
